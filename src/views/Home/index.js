@@ -6,6 +6,7 @@ import { requests } from "../../requests";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
+import { ListsModal } from "../../components/ListsModal";
 
 export function Home() {
   const [allMovies, setAllMovies] = useState([]);
@@ -14,9 +15,16 @@ export function Home() {
   const [displayedGenres, setDisplayedGenres] = useState([]);
   const [displayedProducers, setDisplayedProducers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [movieBeingAdded, setMovieBeingAdded] = useState({ id: 9999 });
 
   const randomFromRange = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
+  };
+
+  const addToLists = (movie) => {
+    setOpen(true);
+    setMovieBeingAdded(movie);
   };
 
   useEffect(
@@ -71,9 +79,24 @@ export function Home() {
         <title>Accueil</title>
       </Helmet>
       <NavBar />
-      <Row title="Recommandations" movies={allMovies.slice(0, 30)} isLargeRow />
-      <Row title="Populaire" movies={popularMovies} />
-      <Row title="A revisionner" movies={watchedMovies} />
+      <Row
+        title="Recommandations"
+        movies={allMovies.slice(0, 30)}
+        isLargeRow
+        addToLists={addToLists}
+      />
+      <Row
+        title="Populaire"
+        movies={popularMovies}
+        isLargeRow
+        addToLists={addToLists}
+      />
+      <Row
+        title="Revoir"
+        movies={watchedMovies}
+        isLargeRow
+        addToLists={addToLists}
+      />
       {displayedGenres.map((genre) => (
         <Row
           key={uuid()}
@@ -83,6 +106,8 @@ export function Home() {
               return movie.nom_genres.includes(genre); // Filtre des films appartenant au genre
             })
             .slice(0, 25)}
+          isLargeRow
+          addToLists={addToLists}
         />
       ))}
       {displayedProducers.map((producteur) => (
@@ -97,8 +122,11 @@ export function Home() {
               ); // Filtre des films appartenant au genre
             })
             .slice(0, 25)}
+          isLargeRow
+          addToLists={addToLists}
         />
       ))}
+      <ListsModal movie={movieBeingAdded} open={open} setOpen={setOpen} />
     </div>
   );
 }

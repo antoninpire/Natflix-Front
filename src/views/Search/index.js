@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { NavBar } from "../../components/NavBar";
 import { Poster } from "../../components/Poster";
 import Grid from "@mui/material/Grid";
+import { ListsModal } from "../../components/ListsModal";
 
 export function Search({ history }) {
   const params = useParams();
@@ -14,6 +15,8 @@ export function Search({ history }) {
   const [loading, setLoading] = useState(false);
   const [queryType, setQueryType] = useState("Any");
   const [queryValue, setQueryValue] = useState("");
+  const [open, setOpen] = useState(false);
+  const [movieBeingAdded, setMovieBeingAdded] = useState({ id: 9999 });
 
   useEffect(() => {
     async function fetchData() {
@@ -21,12 +24,12 @@ export function Search({ history }) {
       const request = await axios.get(requests.fetchAllMovies);
       setMovies(request.data);
       const r = params.query.substring(1).split("]");
-      const type = r[0];
-      const val = r[1];
+      // const type = r[0];
+      // const val = r[1];
       setQueryType(r[0]);
       setQueryValue(r[1]);
-      const arr = request.data.filter((movie) => {
-        if (type == "Genre") {
+      /* const arr = request.data.filter((movie) => {
+        if (type === "Genre") {
           return movie.nom_genres && movie.nom_genres.split(",").includes(val);
         } else {
           if (movie.titre.replaceAll("\\", "").includes("Don't Look Up")) {
@@ -44,11 +47,16 @@ export function Search({ history }) {
           );
         }
       });
-      console.log(arr);
+      console.log(arr); */
       setLoading(false);
     }
     fetchData();
   }, [params]);
+
+  const addToLists = (movie) => {
+    setOpen(true);
+    setMovieBeingAdded(movie);
+  };
 
   if (loading) return <Loader />;
 
@@ -61,12 +69,12 @@ export function Search({ history }) {
       <div className="search-content">
         <h2>
           Résultats pour "
-          {queryType == "Genre" ? `Genre: ${queryValue}` : queryValue}"
+          {queryType === "Genre" ? `Genre: ${queryValue}` : queryValue}"
         </h2>
-        <Grid container justifyContent="flex-start" spacing={1}>
+        <Grid container justifyContent="center" spacing={1}>
           {movies
             .filter((movie) => {
-              if (queryType == "Genre") {
+              if (queryType === "Genre") {
                 return (
                   queryValue &&
                   movie.nom_genres &&
@@ -117,11 +125,12 @@ export function Search({ history }) {
             })
             .map((film) => (
               <Grid key={film.id} item>
-                <Poster movie={film} isLarge width="auto" />
+                <Poster movie={film} isLarge addToLists={addToLists} />
               </Grid>
             ))}
         </Grid>
       </div>
+      <ListsModal movie={movieBeingAdded} open={open} setOpen={setOpen} />
     </div>
   );
 }

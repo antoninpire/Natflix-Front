@@ -7,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import { requests } from "../../requests";
 import { toast } from "react-toastify";
+import { v4 as uuid } from "uuid";
+import EditIcon from "@mui/icons-material/Edit";
 
 export function Lists({
   lists,
@@ -28,6 +30,27 @@ export function Lists({
         })
         .catch((err) => {
           toast.error("Erreur lors de la suppression de la liste!");
+        });
+    }
+  };
+
+  const handleUpdate = (event, list) => {
+    event.stopPropagation();
+    const newName = window.prompt(
+      "Quel nom voulez-vous attribuer à la liste",
+      list.nom
+    );
+    if (newName !== list.nom) {
+      axios
+        .put(requests.updateList + list.id, {
+          nom: newName,
+        })
+        .then((res) => {
+          toast.success("Liste modifiée avec succès!");
+          setDeleted(!deleted);
+        })
+        .catch((err) => {
+          toast.error("Erreur lors de la modification de la liste!");
         });
     }
   };
@@ -70,11 +93,12 @@ export function Lists({
       {lists.map((list, index) => {
         return (
           <ListItemButton
+            key={uuid()}
             sx={{
               paddingTop: "0",
               paddingBottom: "0",
             }}
-            selected={selectedListIndex == index}
+            selected={selectedListIndex === index}
             onClick={() => setSelectedListIndex(index)}
           >
             <ListItemText
@@ -84,6 +108,19 @@ export function Lists({
               }
               secondaryTypographyProps={{ style: { color: "#bfbfbf" } }}
             />
+            <IconButton
+              edge="end"
+              aria-label="Editer"
+              sx={{
+                color: "white",
+                "&:hover": {
+                  color: "#8c8c8c",
+                },
+              }}
+              onClick={(event) => handleUpdate(event, list)}
+            >
+              <EditIcon />
+            </IconButton>
             <IconButton
               edge="end"
               aria-label="Supprimer"

@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
-import { Loader } from "./Loader";
+// import { Loader } from "./Loader";
 import axios from "axios";
 import { requests } from "../requests";
 import { useHistory } from "react-router-dom";
@@ -70,21 +70,19 @@ const useStyles = makeStyles({
 export function SearchBar() {
   const styles = useStyles();
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
-  const [searchData, setSearchData] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
       const request = await axios.get(requests.fetchSearchAutoCompleteData);
       setSearchData(request.data);
-      setLoading(false);
     }
     fetchData();
   }, []);
 
   const handleClickAutocomplete = (event, option) => {
-    if (option.type == "Film") {
+    if (option.type === "Film") {
       history.push(`/Movie/${option.id}`);
     } else if (option.type) {
       history.push(`/Search/[${option.type}]${option.val}`, {
@@ -95,7 +93,7 @@ export function SearchBar() {
     }
   };
 
-  if (loading) return <Loader />;
+  // if (loading) return <Loader />;
 
   return (
     <>
@@ -120,8 +118,8 @@ export function SearchBar() {
             const { val, type, color } = option;
             return (
               <span {...props} style={{ backgroundColor: color }}>
-                {type != "Film" ? `${type}: ` : ""}
-                {val}
+                {type !== "Film" ? `${type}: ` : ""}
+                {val && val.replaceAll("\\", "")}
               </span>
             );
           }}

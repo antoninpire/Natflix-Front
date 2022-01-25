@@ -71,7 +71,7 @@ export function MoviePoster({ movie, hasWatched, note, lists }) {
     }
     setCheckedListsIds(arr);
     setPrevCheckedListsIds(arr);
-  }, []);
+  }, [lists, movie.id]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -80,7 +80,7 @@ export function MoviePoster({ movie, hasWatched, note, lists }) {
     const user = JSON.parse(userStorage);
 
     // Si aucune modification, alors inutile d'envoyer une requête
-    if (checkedListsIds.length == prevCheckedListsIds.length) {
+    if (checkedListsIds.length === prevCheckedListsIds.length) {
       let isSame = true;
       for (let id_liste of checkedListsIds) {
         if (!prevCheckedListsIds.includes(id_liste)) {

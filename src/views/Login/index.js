@@ -17,7 +17,7 @@ export function Login() {
     if (getToken) {
       history.push("Home");
     }
-  }, []);
+  }, [history]);
 
   const handleLogin = () => {
     if (!username || !password) {

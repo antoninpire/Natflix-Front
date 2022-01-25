@@ -16,7 +16,7 @@ export function Signup() {
       toast.error("Veuillez renseigner tous les champs");
       return;
     }
-    if (password != passwordConfirm) {
+    if (password !== passwordConfirm) {
       toast.error("Les mots de passes doivent correspondre");
       return;
     }

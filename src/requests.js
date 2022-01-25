@@ -7,6 +7,7 @@ export const requests = {
   fetchLists: "/lists/get/",
   fetchListsWithoutMovies: "/lists/getWithoutMovies/",
   deleteList: "/lists/",
+  updateList: "/lists/",
   addList: "/lists/add",
   updateMoviesList: "/lists/update",
   fetchDistinctGenres: "/genres/distinct",

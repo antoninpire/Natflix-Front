@@ -6,9 +6,7 @@ export function MovieInfos({ movie }) {
   return (
     <>
       <h3 className="movie-title">Titre</h3>
-      <p className="movie-value movie-value-bigger">
-        {movie.titre && movie.titre.replaceAll("\\", "")}
-      </p>
+      <p className="movie-value movie-value-bigger">{movie.titre}</p>
       <h3 className="movie-title">Genre(s)</h3>
       <div style={{ display: "flex" }}>
         {movie.nom_genres &&
@@ -28,10 +26,10 @@ export function MovieInfos({ movie }) {
       <p className="movie-value">{movie.duree} min.</p>
       <h3 className="movie-title">Moyenne</h3>
       <p className="movie-value">
-        {movie.moyenne} / 5 ({movie.nb_notes} notes)
+        {movie.moyenne && movie.moyenne.toFixed(1)} / 5 ({movie.nb_notes} notes)
       </p>
       <h3 className="movie-title">Nombre de visionnages</h3>
-      <p className="movie-value">{movie.nb_vues}</p>
+      <p className="movie-value">{movie.nb_vues} vue(s)</p>
       <h3 className="movie-title">Producteur(s)</h3>
       <p className="movie-value">
         {movie.nom_producteurs || "Aucun producteur"}

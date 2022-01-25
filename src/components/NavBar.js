@@ -13,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { SearchBar } from "./SearchBar";
 import { useHistory } from "react-router-dom";
-import Autocomplete from "@mui/material/Autocomplete";
 
 const pages = [
   { label: "Accueil", url: "Home" },
@@ -55,7 +54,7 @@ export function NavBar() {
   };
 
   const handleOnClickMenu = (url) => {
-    if (url == "Disconnect") {
+    if (url === "Disconnect") {
       localStorage.clear();
       window.location.reload();
     } else if (
@@ -67,17 +66,6 @@ export function NavBar() {
       history.push(url);
     }
   };
-
-  /*
-
-
-  const filterOptions = createFilterOptions({
-  matchFrom: 'start',
-  stringify: (option) => option.title,
-});
-
-<Autocomplete filterOptions={filterOptions} />;
-  */
 
   return (
     <AppBar position="static" style={{ backgroundColor: "black" }}>

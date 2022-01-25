@@ -19,9 +19,6 @@ export function Movie() {
   const [lists, setLists] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
 
-  if (Object.keys(movie).length && route.params.id != movie.id)
-    window.location.reload();
-
   useEffect(() => {
     const movieId = route.params.id;
     async function fetchData() {
@@ -30,6 +27,8 @@ export function Movie() {
       const user = JSON.parse(userStorage);
       let request;
       request = await axios.get(requests.fetchMovie + movieId);
+      if (request.data[0] && request.data[0].titre)
+        request.data[0].titre = request.data[0].titre.replaceAll("\\", "");
       setMovie(request.data[0]);
       request = await axios.get(
         `${requests.fecthViewFilmAndUser}?id_film=${movieId}&id_utilisateur=${user.id}`
@@ -46,7 +45,7 @@ export function Movie() {
       setLoading(false);
     }
     fetchData();
-  }, []);
+  }, [route.params.id]);
 
   if (loading) return <Loader />;
 
@@ -66,7 +65,7 @@ export function Movie() {
               display: "flex",
               paddingRight: "2rem",
               flexDirection: "column",
-              paddingLeft: 200,
+              paddingLeft: "12vw",
             }}
           >
             <MoviePoster
