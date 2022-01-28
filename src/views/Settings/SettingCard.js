@@ -51,7 +51,7 @@ export function SettingCard({
               fontSize: 24,
             },
           }}
-          checked={selectedValue === value}
+          checked={selectedValue == value}
           value={value}
           inputProps={{ "aria-label": value }}
           name="radio-settings"
