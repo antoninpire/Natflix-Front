@@ -9,6 +9,7 @@ import { requests } from "../../requests";
 import { toast } from "react-toastify";
 import { v4 as uuid } from "uuid";
 import EditIcon from "@mui/icons-material/Edit";
+import { constants } from "../../constants";
 
 export function Lists({
   lists,
@@ -61,7 +62,7 @@ export function Lists({
       toast.error("Veuillez renseigner un nom valide");
       return;
     }
-    const userStorage = localStorage.getItem("user");
+    const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
     const user = JSON.parse(userStorage);
     axios
       .post(requests.addList, {

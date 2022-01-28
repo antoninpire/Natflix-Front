@@ -9,6 +9,8 @@ import { MoviePoster } from "./MoviePoster";
 import Grid from "@mui/material/Grid";
 import { MovieInfos } from "./MovieInfos";
 import { Poster } from "../../components/Poster";
+import { constants } from "../../constants";
+import { ListsModal } from "../../components/ListsModal";
 
 export function Movie() {
   const route = useRouteMatch();
@@ -18,12 +20,19 @@ export function Movie() {
   const [note, setNote] = useState(null);
   const [lists, setLists] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [movieBeingAdded, setMovieBeingAdded] = useState({ id: 9999 });
+
+  const addToLists = (movie) => {
+    setOpen(true);
+    setMovieBeingAdded(movie);
+  };
 
   useEffect(() => {
     const movieId = route.params.id;
     async function fetchData() {
       setLoading(true);
-      const userStorage = localStorage.getItem("user");
+      const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
       const user = JSON.parse(userStorage);
       let request;
       request = await axios.get(requests.fetchMovie + movieId);
@@ -90,6 +99,12 @@ export function Movie() {
           ))}
         </Grid>
       </div>
+      <ListsModal
+        movie={movieBeingAdded}
+        open={open}
+        setOpen={setOpen}
+        addToLists={addToLists}
+      />
     </div>
   );
 }

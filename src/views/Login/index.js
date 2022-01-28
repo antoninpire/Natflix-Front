@@ -5,6 +5,7 @@ import { Form } from "../../components/Form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { constants } from "../../constants";
 
 export function Login() {
   const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ export function Login() {
   const history = useHistory();
 
   useEffect(() => {
-    const getToken = localStorage.getItem("token");
+    const getToken = localStorage.getItem(constants.tokenStorageKey);
     if (getToken) {
       history.push("Home");
     }
@@ -33,13 +34,12 @@ export function Login() {
       .then(async (res) => {
         setLoading(false);
         const { user, token } = res.data;
-        // this._saveTokenAsync(token);
         user.password = password;
-        // this._saveUserPayloadAsync(user);
-        // this.setState({ token, user });
-        // this.redirect();
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", token);
+        localStorage.setItem(
+          constants.userPayloadStorageKey,
+          JSON.stringify(user)
+        );
+        localStorage.setItem(constants.tokenStorageKey, token);
         toast.success("Authentification réussie");
         window.location.reload();
       })

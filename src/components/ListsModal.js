@@ -8,6 +8,7 @@ import { requests } from "../requests";
 import { makeStyles } from "@mui/styles";
 import { toast } from "react-toastify";
 import { Loader } from "./Loader";
+import { constants } from "../constants";
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +31,7 @@ export function ListsModal({ movie, open, setOpen }) {
     async function fetchData() {
       setLoading(true);
       const arr = [];
-      const userStorage = localStorage.getItem("user");
+      const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
       const user = JSON.parse(userStorage);
       let request = await axios.get(requests.fetchListsWithoutMovies + user.id);
       setLists(request.data);
@@ -54,7 +55,7 @@ export function ListsModal({ movie, open, setOpen }) {
 
   const handleClose = () => {
     setOpen(false);
-    const userStorage = localStorage.getItem("user");
+    const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
     const user = JSON.parse(userStorage);
 
     // Si aucune modification, alors inutile d'envoyer une requête

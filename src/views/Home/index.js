@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 import { ListsModal } from "../../components/ListsModal";
+import { constants } from "../../constants";
 
 export function Home() {
   const [allMovies, setAllMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [watchedMovies, setWatchedMovies] = useState([]);
+  const [ratedMovies, setRatedMovies] = useState([]);
   const [displayedGenres, setDisplayedGenres] = useState([]);
   const [displayedProducers, setDisplayedProducers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,9 @@ export function Home() {
     () => {
       async function fetchData() {
         setLoading(true);
-        const userStorage = localStorage.getItem("user");
+        const userStorage = localStorage.getItem(
+          constants.userPayloadStorageKey
+        );
         const user = JSON.parse(userStorage);
         let request;
         request = await axios.get(requests.fetchDistinctGenres);
@@ -61,6 +65,8 @@ export function Home() {
         setPopularMovies(request.data);
         request = await axios.get(requests.fetchWatchedMovies + "/" + user.id);
         setWatchedMovies(request.data);
+        request = await axios.get(requests.fetchRatedMovies + "/" + user.id);
+        setRatedMovies(request.data);
         setLoading(false);
         return request;
       }
@@ -80,22 +86,25 @@ export function Home() {
       </Helmet>
       <NavBar />
       <Row
-        title="Recommandations"
-        movies={allMovies.slice(0, 30)}
-        isLargeRow
-        addToLists={addToLists}
-      />
-      <Row
         title="Populaire"
         movies={popularMovies}
         isLargeRow
         addToLists={addToLists}
+        url="/Search/[Popular]"
       />
       <Row
         title="Revoir"
         movies={watchedMovies}
         isLargeRow
         addToLists={addToLists}
+        url="/Search/[Watched]"
+      />
+      <Row
+        title="Vous les avez notés"
+        movies={ratedMovies}
+        isLargeRow
+        addToLists={addToLists}
+        url="/Search/[Rated]"
       />
       {displayedGenres.map((genre) => (
         <Row
@@ -103,11 +112,12 @@ export function Home() {
           title={genre}
           movies={allMovies
             .filter((movie) => {
-              return movie.nom_genres.includes(genre); // Filtre des films appartenant au genre
+              return movie.nom_genres && movie.nom_genres.includes(genre); // Filtre des films appartenant au genre
             })
             .slice(0, 25)}
           isLargeRow
           addToLists={addToLists}
+          url={`/Search/[Genre]${genre}`}
         />
       ))}
       {displayedProducers.map((producteur) => (
@@ -124,6 +134,7 @@ export function Home() {
             .slice(0, 25)}
           isLargeRow
           addToLists={addToLists}
+          url={`/Search/[Producteur]${producteur}`}
         />
       ))}
       <ListsModal movie={movieBeingAdded} open={open} setOpen={setOpen} />

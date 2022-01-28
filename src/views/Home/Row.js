@@ -1,9 +1,10 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { Link } from "react-router-dom";
 import { Poster } from "../../components/Poster";
 
-export function Row({ title, isLargeRow, movies, addToLists = () => {} }) {
+export function Row({ title, isLargeRow, movies, addToLists = () => {}, url }) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -31,35 +32,9 @@ export function Row({ title, isLargeRow, movies, addToLists = () => {} }) {
 
   return (
     <div className="row">
-      <h2>{title}</h2>
-      {/* <Grid container justifyContent="center" spacing={1}>
-        {movies.map((movie) => (
-          <Grid key={movie.id} item>
-            <Poster movie={movie} isLarge={isLargeRow} />
-          </Grid>
-        ))}
-        </Grid> */}
-      {/* <div className="row_posters">
-        {movies.map((movie) => (
-          <Poster movie={movie} isLarge={isLargeRow} />
-        ))}
-        </div> */}
-      {/* <ImageList
-        sx={{
-          gridAutoFlow: "column",
-        }}
-        gap={10}
-      >
-        {movies.map((movie) => (
-          <ImageListItem
-            sx={{
-              padding: "30px 0",
-            }}
-          >
-            <Poster movie={movie} isLarge={isLargeRow} />
-          </ImageListItem>
-        ))}
-          </ImageList> */}
+      <Link to={url} className="row-link">
+        <h2>{title + " >"}</h2>
+      </Link>
       <Carousel
         containerClass="carousel-container"
         itemClass="image-item"

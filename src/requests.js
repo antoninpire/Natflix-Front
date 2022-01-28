@@ -2,6 +2,7 @@ export const requests = {
   fetchAllMovies: "/films/all",
   fetchPopularMovies: "/films/popular",
   fetchWatchedMovies: "/films/seen",
+  fetchRatedMovies: "/films/rated",
   fetchMovie: "/films/get/",
   fetchSimilarMovies: "/films/similar/",
   fetchLists: "/lists/get/",
@@ -17,4 +18,8 @@ export const requests = {
   fetchNoteFilmAndUser: "/notes/filmAndUser",
   addNote: "/notes/add",
   fetchSearchAutoCompleteData: "/films/searchAutocomplete",
+  fetchRecommandations: "/films/recommandations",
+  fetchFilmsGenre: "/films/genre",
+  fetchFilmsProducteur: "/films/producteur",
+  updateUser: "/auth/update",
 };

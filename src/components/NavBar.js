@@ -13,9 +13,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { SearchBar } from "./SearchBar";
 import { useHistory } from "react-router-dom";
+import { constants } from "../constants";
 
 const pages = [
   { label: "Accueil", url: "Home" },
+  { label: "Recommandations", url: "Recommendations" },
   { label: "Mes listes", url: "MyLists" },
 ];
 const settings = [
@@ -31,7 +33,7 @@ export function NavBar() {
   const history = useHistory();
 
   useEffect(() => {
-    const userStorage = localStorage.getItem("user");
+    const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
     if (userStorage) {
       const user = JSON.parse(userStorage);
       setUsername(user.identifiant);

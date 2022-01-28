@@ -7,6 +7,7 @@ import { requests } from "../../requests";
 
 import { Lists } from "./Lists";
 import { Posters } from "./Posters";
+import { constants } from "../../constants";
 
 export function MyLists() {
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ export function MyLists() {
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const userStorage = localStorage.getItem("user");
+      const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
       const user = JSON.parse(userStorage);
       const request = await axios.get(requests.fetchLists + user.id);
       setLists(request.data);

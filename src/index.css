@@ -194,6 +194,15 @@ body {
   padding: 2.5rem 0 0.5rem;
 }
 
+.row-link {
+  color: white;
+  text-decoration: none;
+}
+
+.row-link:hover {
+  text-decoration: underline;
+}
+
 .row_posters {
   display: flex;
   overflow-y: hidden;
@@ -419,6 +428,7 @@ body {
   color: white;
   font-size: 39px;
   margin-bottom: 1rem;
+  margin-left: 2rem;
 }
 
 /* FIN PAGE RECHERCHE */
@@ -441,6 +451,37 @@ body {
   color: white;
   font-size: 39px;
   margin-bottom: 1rem;
+}
+
+.account-form-container {
+  background-color: #2c2f33;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0;
+  width: 40%;
+  margin: 0 auto 4rem;
+  border-radius: 5px;
+}
+
+.account-form-container > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-form-container > div:first-child {
+  margin-bottom: 4rem;
+}
+
+.account-form-container > div:nth-child(2) {
+  margin-bottom: 0.5rem;
+}
+
+.account-form-label {
+  color: white;
+  font-size: 21px;
+  padding-bottom: 1.5rem;
 }
 
 /* FIN PAGE MON COMPTE */
@@ -480,7 +521,7 @@ body {
 
 .poster-card-large:hover div:first-child {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -542,3 +583,29 @@ body {
 .carousel-container {
   padding: 20px 0;
 }
+
+/* PAGE PARAMETRES */
+
+.settings-container {
+  background-color: #141414;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.settings-content {
+  width: 100%;
+  height: 100%;
+  padding: 3rem 0;
+}
+
+.settings-content-title {
+  color: white;
+  padding-left: 4rem;
+  margin-bottom: 2rem;
+}
+
+.settings-content-title > h2 {
+  font-size: 39px;
+}
+
+/* FIN PAGE PARAMETRES */

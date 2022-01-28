@@ -1,6 +1,7 @@
 import axios from "axios";
+import { constants } from "./constants";
 
-let getToken = localStorage.getItem("token");
+let getToken = localStorage.getItem(constants.tokenStorageKey);
 
 axios.defaults.baseURL = "http://localhost:5000/";
 axios.defaults.headers.common["Content-Type"] =

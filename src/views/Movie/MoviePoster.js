@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { makeStyles } from "@mui/styles";
+import { constants } from "../../constants";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -76,7 +77,7 @@ export function MoviePoster({ movie, hasWatched, note, lists }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    const userStorage = localStorage.getItem("user");
+    const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
     const user = JSON.parse(userStorage);
 
     // Si aucune modification, alors inutile d'envoyer une requête
@@ -108,7 +109,7 @@ export function MoviePoster({ movie, hasWatched, note, lists }) {
   };
 
   const handleAddView = () => {
-    const userStorage = localStorage.getItem("user");
+    const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
     const user = JSON.parse(userStorage);
     axios
       .post(requests.toggleView, {
@@ -126,7 +127,7 @@ export function MoviePoster({ movie, hasWatched, note, lists }) {
   };
 
   const handleAddNote = (newNote) => {
-    const userStorage = localStorage.getItem("user");
+    const userStorage = localStorage.getItem(constants.userPayloadStorageKey);
     const user = JSON.parse(userStorage);
     axios
       .post(requests.addNote, {
